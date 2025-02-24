@@ -4,7 +4,7 @@ import config from 'config'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import {check, validationResult} from 'express-validator'
-
+import authMiddleware from '../middleware/auth.middleware.js'
 
 const router = new Router()
 
@@ -56,8 +56,6 @@ router.post('/login', async (req, res)=>{
 		}
 
 		const token = jwt.sign({id: user.id}, config.get('secretKey'),{expiresIn: "1h"})
-
-
 		return res.json({
 			token,
 			user:{
@@ -71,6 +69,28 @@ router.post('/login', async (req, res)=>{
 	}catch(e){
 		console.log(e)
 		res.status(404).send({message: 'Ошибка регистрации'})
+	}
+})
+
+
+router.get('/auth',authMiddleware, async (req, res)=>{
+	try{
+		const user = await User.findOne({_id: req.user.id})
+		const token = jwt.sign({id: user.id}, config.get('secretKey'),{expiresIn: "1h"})
+		return res.json({
+			token,
+			user:{
+				id:user.id,
+				email: user.email,
+				disk: user.disk,
+				usedDisk: user.usedDisk,
+				avatar: user.avatar
+			}
+		})
+		
+	}catch(e){
+		console.log(e)
+		res.status(404).send({message: ''})
 	}
 })
 
