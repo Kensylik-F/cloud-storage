@@ -4,9 +4,10 @@ import './App.scss'
 import { Login } from './components/auth/Login'
 import { Registration } from './components/auth/Registration'
 import { Navbar } from './components/navbar/navbar'
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom'
 import { auth } from './actions/user'
 import { useEffect } from 'react'
+import { Disk } from './components/disk/disk'
 
 function App() {
 
@@ -23,11 +24,21 @@ function App() {
         <Navbar/>  
         <div className="wrapper">
           {
-            !isAuth && 
+            !isAuth ?
               <Routes>
                 <Route path='/login' element={<Login/>}/>
                 <Route path='/registration' element={<Registration/>}/>
+                <Route path='*' element={<Navigate to="/login"/>}/>
+
               </Routes>
+              : 
+              <Routes>
+                <Route  path='/login' element={<Disk/>}/>
+                <Route path='/' element={<Navigate to="/"/>}/>
+              </Routes>
+              
+              
+
         }
         </div>
       </div>

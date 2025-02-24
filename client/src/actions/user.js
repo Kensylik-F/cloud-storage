@@ -27,7 +27,6 @@ export const login =createAsyncThunk(
 			})
 			dispatch(setUser(res.data.user))
 			localStorage.setItem("token",res.data.token)
-			console.log(res.data)
 			
 		}catch(e){
 			alert(e)

@@ -1,0 +1,39 @@
+
+
+
+.file{
+	display: grid;
+	grid-template-columns: 1fr 4fr repeat(4, 1fr);
+
+	border: solid 2px rgb(120, 190, 228);
+	padding: 20px 0;
+	margin: 10px 0;
+	border-radius: 8px;
+	align-items: center;
+	transition: .2s linear;
+	
+	&:hover{
+		background:rgb(120, 190, 228, .1);
+	}
+	&_img{
+		width: 30px;
+		height: 30px;
+		justify-self: center;
+		// margin-left: 20px;
+	}
+	&_name{
+		grid-column-start: 2;
+		justify-self: start;
+	}	
+	&_date{
+		grid-column-start: 5;
+		justify-self: center;
+
+
+	}
+	&_size{
+		grid-column-start: 6;
+		justify-self: center;
+
+	}
+}

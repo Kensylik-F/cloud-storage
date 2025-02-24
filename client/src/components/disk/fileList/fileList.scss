@@ -1,0 +1,29 @@
+
+
+
+.fileList{
+	&_name{
+		grid-column-start: 2;
+		justify-self: start;
+
+	}
+	&_date{
+		grid-column-start: 5;
+		justify-self: center;
+
+	}
+	&_size{
+		grid-column-start: 6;
+		justify-self: center;
+
+	}
+}
+
+.fileList_container{
+	display:  grid;
+	margin: 10px;
+	font-size: 20px;
+	grid-template-columns: 1fr 4fr repeat(4, 1fr);
+
+	
+}

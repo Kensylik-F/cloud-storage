@@ -7,16 +7,18 @@ class FileController{
 		try{
 			const {name,parent, type} = req.body
 			const file = new File({name, type, parent, user: req.user.id})
+			console.log("FILE", file)
 			const parentFile = await File.findOne({_id: parent})
 			if(!parentFile){
 				file.path = name
-				await fileService.createDir(file)
+				// await fileService.createDir(file)
 			}else{
 				file.path = `${parentFile.path}\\${file.name}`
-				await fileService.createDir(file)
+				// await fileService.createDir(file)
 				parentFile.childs.push(file._id)
 				await parentFile.save()
 			}
+			await fileService.createDir(file)
 			await file.save()
 			return res.json(file)
 		}catch(e){

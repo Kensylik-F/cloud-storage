@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 const File = new mongoose.Schema({
 	name: {type: String, required: true},
 	type: {type: String, required: true},
+	date: {type: Date, default: Date.now()},
 	size: {type: Number, default:0},
 	accesslink: {type: String},
 	path: {type: String, default: ''},
