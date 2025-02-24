@@ -5,6 +5,9 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import {check, validationResult} from 'express-validator'
 import authMiddleware from '../middleware/auth.middleware.js'
+import fileService from '../services/file.service.js'
+import File from '../models/File.js'
+
 
 const router = new Router()
 
@@ -31,6 +34,7 @@ router.post('/registration',
 		const user = new User({email, password: hashPassword})
 		console.log(user)
 		await user.save()
+		await fileService.createDir(new File({user: user.id, name: ''}))
 		return res.json({message: 'Пользователь создан'})
 	}catch(e){
 		console.log(e)
