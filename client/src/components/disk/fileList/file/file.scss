@@ -36,4 +36,27 @@
 		justify-self: center;
 
 	}
+
+	&:hover &_date{
+		grid-column-start: 3;
+	
+	}
+	&:hover &_size{
+		grid-column-start: 4;
+	}
+
+	&_btn{
+		display: none;
+		
+	}
+	&:hover &_download{
+		grid-column-start: 5;
+		display: block;
+	}
+	&:hover &_delete{
+		grid-column-start: 6;
+		display: block;
+	}
 }
+
+

@@ -66,3 +66,30 @@ export const uploadFile = createAsyncThunk(
 			console.log(e.response.data.message)
 		}
 })
+
+export const downloadFile = createAsyncThunk(
+	"api/files/download",
+	async(file)=>{
+		try{
+			const res = await fetch(`${parentURL}/download?id=${file._id}`,{
+				headers:{
+					Authorization:`Bearer ${localStorage.getItem('token')}`
+				}
+			})
+
+			if(res.status === 200){
+				const blob = await res.blob()
+				const downdloadUrl  = window.URL.createObjectURL(blob)
+				const link = document.createElement('a')
+				link.href = downdloadUrl
+				link.download = file.name
+				document.body.appendChild(link)
+				link.click()
+				link.remove()
+			}
+			
+			
+		}catch(e){
+			console.log(e.response.data.message)
+		}
+})

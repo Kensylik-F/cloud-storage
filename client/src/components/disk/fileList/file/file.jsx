@@ -4,6 +4,9 @@ import dir from '../../../../assets/img/dir.png'
 import folder from '../../../../assets/img/file.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { pushToStack, setCurrentDir } from '../../../../store/fileReducer';
+import { downloadFile } from '../../../../actions/files';
+// import down from '../../../../assets/img/down.png';
+// import del from '../../../../assets/img/delete.png';
 
 
 export const File =({file})=>{
@@ -17,12 +20,20 @@ export const File =({file})=>{
 		}
 
 	}
+
+	const fileDownloadHandler = (e) =>{
+		e.stopPropagation()
+		dispatch(downloadFile(file))
+
+	}
 	return (
 		<div className="file" onClick={()=> openDirHandler(file)}>
 			<img className="file_img" src={file.type === 'dir' ? dir : folder} alt="" />
 			<div className="file_name">{file.name}</div>
 			<div className="file_date">{file.date.slice(0,10)}</div>
 			<div className="file_size">{file.size}</div>
+			{file.type !== 'dir' && <button onClick={(e) => fileDownloadHandler(e)} className='file_btn file_download'>Download</button>}
+			<button className='file_btn file_delete'>Delete</button>
 		</div>
 	)
 }
