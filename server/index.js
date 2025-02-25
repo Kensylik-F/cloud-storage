@@ -1,4 +1,5 @@
 import express from 'express'
+import fileUpload from 'express-fileupload'
 import mongoose from 'mongoose'
 import config from 'config'
 import authRouter from './routes/auth.routes.js'
@@ -8,7 +9,7 @@ import cors from 'cors'
 const app = express()
 const PORT = config.get('serverPort')
 
-
+app.use(fileUpload({}))
 app.use(cors())
 // распарсить Json обьект чтобы express правильно прочитал данные
 app.use(express.json())

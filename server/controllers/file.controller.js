@@ -1,7 +1,8 @@
 import fileService from "../services/file.service.js"
 import File from "../models/File.js"
 import User from "../models/User.js"
-
+import config from 'config'
+import fs from 'fs'
 class FileController{
 	async createDir(req,res){
 		try{
@@ -35,6 +36,49 @@ class FileController{
 			console.log(e)
 			return res.status(400).json(e)
 		}
+	}
+
+	async uploadFile(req,res){
+		try{
+			const file = req.files.file
+
+			const parent = await File.findOne({user: req.user.id, _id: req.body.parent})
+			const user = await User.findOne({_id: req.user.id})
+
+			if(user.usedDisk + file.size > user.disk){
+				return res.status(400).json({message: 'диск заполнен'})
+			}
+
+			user.usedDisk = user.usedDisk + file.size
+			let path
+			if(parent){
+				path = `${config.get('filePath')}\\${user.id}\\${parent.path}\\${file.name}`
+			}else{
+				path = `${config.get('filePath')}\\${user.id}\\${file.name}`
+			}
+			file.mv(path)
+			
+			if(fs.existsSync(path)){
+				return res.status(400).json({message: 'файл уже загружен'})
+			}
+			const type = file.name.split('.').pop()
+			const dbFile = new File({
+				name: file.name,
+				type,
+				size: file.size,
+				path: parent?.path,
+				parent: parent?._id,
+				user: user.id
+			})
+
+			await dbFile.save()
+			await user.save()
+			res.json(dbFile)
+		}catch(e){
+			console.log(e)
+			return res.status(500).json({message: e})
+		}
+
 	}
 }
 
