@@ -56,11 +56,11 @@ class FileController{
 			}else{
 				path = `${config.get('filePath')}\\${user.id}\\${file.name}`
 			}
-			file.mv(path)
 			
 			if(fs.existsSync(path)){
 				return res.status(400).json({message: 'файл уже загружен'})
 			}
+			file.mv(path)
 			const type = file.name.split('.').pop()
 			const dbFile = new File({
 				name: file.name,

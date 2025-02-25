@@ -10,14 +10,15 @@ export const File =({file})=>{
 	const dispatch = useDispatch()
 	const dirId = useSelector(state => state.files.currentDir)
 
-	const openDirHandler = () =>{
+	const openDirHandler = (file) =>{
+		if(file.type === 'dir'){
+			dispatch(pushToStack(dirId))
+			dispatch(setCurrentDir(file._id))
+		}
 
-		console.log('CLick back in file:', dirId)
-		dispatch(pushToStack(dirId))
-		dispatch(setCurrentDir(file._id))
 	}
 	return (
-		<div className="file" onClick={file.type === 'dir' ? ()=> openDirHandler(): ''}>
+		<div className="file" onClick={()=> openDirHandler(file)}>
 			<img className="file_img" src={file.type === 'dir' ? dir : folder} alt="" />
 			<div className="file_name">{file.name}</div>
 			<div className="file_date">{file.date.slice(0,10)}</div>

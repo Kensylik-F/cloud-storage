@@ -8,6 +8,16 @@
 		font-size: 18px;
 		border-radius: 10px;
 		padding: 6px 19px;
+		border: 2px solid rgb(120, 190, 228);
+		background: none;
+		transition: .3s linear;
+		
+		&:hover{
+			background: rgba(255, 255, 255, 0.5);
+		}
+		&:active{
+			transform: scale(1.05);
+		}
 	}
 
 }
@@ -67,4 +77,38 @@
 		border-radius: 5px;
 		align-self: self-end;
 	}
+}
+
+.disk_input{
+	display: none;
+}
+.disk_upload{
+	border-radius: 10px;
+	padding: 6px 19px;
+	border: 2px solid rgb(120, 190, 228);
+	text-align: center;
+	
+}
+.disk_label{
+	cursor: pointer;
+	font-size: 18px;
+}
+
+.drag_field{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 60px;
+	width: 90vw;
+	height: 80vh;
+	background: rgba(120, 190, 228, 0.205);
+	border-radius: 15px;
+	border: 7px dashed rgb(120, 190, 228);
+	// transition: 0.5s linear;
+	font-size: 30px;
+	// &:hover{
+	// 	background: rgba(120, 190, 228, 0.362);
+		
+	// }
+	
 }

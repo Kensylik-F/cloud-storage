@@ -38,3 +38,31 @@ export const createDir = createAsyncThunk(
 			console.log(e.response.data.message)
 		}
 })
+
+export const uploadFile = createAsyncThunk(
+	"api/files/upload",
+	async({ file, dirId}, {dispatch})=>{
+		try{
+			const formData = new FormData()
+			formData.append('file', file)
+			if(dirId){
+				formData.append("parent", dirId)
+			}
+			const res = await axios.post(`${parentURL}\\${'upload'}`,formData, {
+				headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
+				onUploadProgress: progressEvent => {
+					const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
+					console.log(totalLength)
+					if(totalLength){
+						let progress = Math.round((progressEvent.loaded * 100) / totalLength)
+						console.log(progress)
+					}
+				}
+
+			})
+			console.log(res.data)
+			dispatch(addFile(res.data))
+		}catch(e){
+			console.log(e.response.data.message)
+		}
+})

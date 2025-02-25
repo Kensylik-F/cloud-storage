@@ -1,7 +1,10 @@
 import { NavLink } from 'react-router-dom'
 import './navbar.scss'
 import { useDispatch, useSelector } from 'react-redux'
+import cloud from '../../assets/img/cloud.png'
 import { logout } from '../../store/userReducer'
+
+
 
 export const Navbar = () =>{
 	const isAuth = useSelector(state => state.user.isAuth)
@@ -10,8 +13,8 @@ export const Navbar = () =>{
 		<div className="navbar">
 			<div className="navbar_container">
 				<div className="logo">
-					<img src="" alt="" />
-					<div className="navbar_header">Mern cloud</div>
+					<img src={cloud} alt="" className='navbar_img'/>
+					<p className="navbar_header">Mern cloud</p>
 				</div>
 				<div className="navbar_auth">
 					{!isAuth && <div className="navbar__ligin"><NavLink to='/login'>войти</NavLink></div>}
