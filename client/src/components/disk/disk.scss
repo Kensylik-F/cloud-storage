@@ -18,3 +18,53 @@
 	border-style: none;
 	padding: 50px 100px;
 }
+
+
+.popup{
+	overflow-x: hidden;
+	width: 99vw;
+	background: rgb(0, 0, 0, 0.5);
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	&_container{
+		width: 400px;
+		background: #8d8d8d;
+		display: flex;
+		padding: 30px;
+		border-radius: 5px;
+		flex-direction: column;
+	}
+
+	&_header{
+		display: flex;
+		justify-content: space-between;
+
+		
+	}
+	&_title{
+		font-size: 25px;
+		margin-left: 20px;
+	}
+	input{
+		margin: 30px 20px;
+	}
+	.popup_btn_close{
+		border-radius: 5px;
+		width: 30px;
+		height: 30px;
+	}
+
+	.popup_btn_create{
+		width: 100px;
+		height: 40px;
+		border-radius: 5px;
+		align-self: self-end;
+	}
+}

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { setFiles } from "../store/fileReducer";
+import { addFile, setFiles } from "../store/fileReducer";
 
 const parentURL= "http://localhost:7777/api/files"
 
@@ -18,5 +18,23 @@ export const getFiles = createAsyncThunk(
 		}catch(e){
 			console.log(e.response.data.message)
 		}
+})
 
+export const createDir = createAsyncThunk(
+	"api/files/create",
+	async({dirId, name}, {dispatch})=>{
+		try{
+			const response = await axios.post(parentURL,{
+				name,
+				parent: dirId,
+				type: 'dir'
+
+			},{
+				headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+			})
+			dispatch(addFile(response.data))
+			console.log(response.data)
+		}catch(e){
+			console.log(e.response.data.message)
+		}
 })
