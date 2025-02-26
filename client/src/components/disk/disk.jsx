@@ -5,6 +5,7 @@ import './disk.scss'
 import { FileList } from "./fileList/fileList"
 import { Popup } from "./Popup"
 import { popFromStack, popupDisplay, setCurrentDir } from "../../store/fileReducer"
+import { Uploader } from "./fileList/uploader/Uploader"
 
 
 
@@ -70,6 +71,7 @@ export const Disk = () =>{
 			</div>
 			<FileList/>
 			<Popup/>
+			<Uploader/>
 		</div>
 		:
 		<div className="drag_field" onDrop={drophHandler} onDragEnter={dragEnterHandler} onDragLeave={dragLeavehandler} onDragOver={dragOverHandler}> 

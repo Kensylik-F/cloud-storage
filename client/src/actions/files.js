@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { addFile, deleteFileAc, setFiles } from "../store/fileReducer";
+import { addFileUploader, changeFileUploader, removeFileUploader, showUploader } from "../store/uploadReducer";
 
 const parentURL= "http://localhost:7777/api/files"
 
@@ -48,20 +49,25 @@ export const uploadFile = createAsyncThunk(
 			if(dirId){
 				formData.append("parent", dirId)
 			}
+
+			const uploaderFile = {name: file.name, progress: 0, id: Date.now()}
+			dispatch(showUploader())
+			dispatch(addFileUploader(uploaderFile))
 			const res = await axios.post(`${parentURL}\\${'upload'}`,formData, {
 				headers: {Authorization: `Bearer ${localStorage.getItem('token')}`},
 				onUploadProgress: progressEvent => {
 					const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
 					console.log(totalLength)
 					if(totalLength){
-						let progress = Math.round((progressEvent.loaded * 100) / totalLength)
-						console.log(progress)
+						const progress = Math.round((progressEvent.loaded * 100) / totalLength);
+                        dispatch(changeFileUploader({ id: uploaderFile.id, progress }));
 					}
 				}
 
 			})
 			console.log(res.data)
 			dispatch(addFile(res.data))
+			dispatch(removeFileUploader(uploaderFile.id))
 		}catch(e){
 			console.log(e.response.data.message)
 		}

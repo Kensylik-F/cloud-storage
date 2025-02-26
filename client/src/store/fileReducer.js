@@ -40,9 +40,3 @@ const fileSlice = createSlice({
 
 export const {setFiles, setCurrentDir, addFile, popupDisplay, pushToStack, popFromStack, deleteFileAc} = fileSlice.actions
 export default fileSlice.reducer
-// export default function fileReducer(state = defaultState ,action){
-// 	switch(action.type){
-// 		default:
-// 			return state
-// 	}
-// }
