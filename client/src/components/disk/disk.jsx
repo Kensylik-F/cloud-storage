@@ -55,7 +55,6 @@ export const Disk = () =>{
 		event.preventDefault();
 		event.stopPropagation();
 		let files = [...event.dataTransfer.files]
-		console.log(files)
 		files.forEach(file => dispatch(uploadFile({file, dirId: currentDir})))
 		setDragEnter(false)
 	} 

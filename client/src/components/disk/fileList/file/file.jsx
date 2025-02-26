@@ -4,7 +4,7 @@ import dir from '../../../../assets/img/dir.png'
 import folder from '../../../../assets/img/file.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { pushToStack, setCurrentDir } from '../../../../store/fileReducer';
-import { downloadFile } from '../../../../actions/files';
+import { deleteFile, downloadFile } from '../../../../actions/files';
 // import down from '../../../../assets/img/down.png';
 // import del from '../../../../assets/img/delete.png';
 
@@ -23,8 +23,21 @@ export const File =({file})=>{
 
 	const fileDownloadHandler = (e) =>{
 		e.stopPropagation()
+
+		
 		dispatch(downloadFile(file))
 
+	}
+
+	const deleteFileHandler =async(e) =>{
+		e.stopPropagation()
+		if (file.type === "dir" && file.childs.length > 0) {
+			const isConfirmed = window.confirm(
+			  `Папка "${file.name}" содержит файлы. Удалить?`
+			);
+			if (!isConfirmed) return;
+		  }
+		dispatch(deleteFile(file))
 	}
 	return (
 		<div className="file" onClick={()=> openDirHandler(file)}>
@@ -33,7 +46,7 @@ export const File =({file})=>{
 			<div className="file_date">{file.date.slice(0,10)}</div>
 			<div className="file_size">{file.size}</div>
 			{file.type !== 'dir' && <button onClick={(e) => fileDownloadHandler(e)} className='file_btn file_download'>Download</button>}
-			<button className='file_btn file_delete'>Delete</button>
+			<button onClick={(e)=> deleteFileHandler(e)} className='file_btn file_delete'>Delete</button>
 		</div>
 	)
 }
@@ -44,6 +57,7 @@ File.propTypes = {
         name: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
         size: PropTypes.string.isRequired,
-		type: PropTypes.string
+		type: PropTypes.string,
+		childs: PropTypes.object
     }).isRequired,
 };

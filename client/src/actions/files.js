@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { addFile, setFiles } from "../store/fileReducer";
+import { addFile, deleteFileAc, setFiles } from "../store/fileReducer";
 
 const parentURL= "http://localhost:7777/api/files"
 
@@ -89,6 +89,24 @@ export const downloadFile = createAsyncThunk(
 			}
 			
 			
+		}catch(e){
+			console.log(e.response.data.message)
+		}
+})
+export const deleteFile = createAsyncThunk(
+	"api/files/",
+	async(file, {dispatch})=>{
+		try{
+			const res = await axios.delete(`${parentURL}?id=${file._id}`,{
+				headers:{
+					Authorization: `Bearer ${localStorage.getItem('token')}`
+				}
+			})
+
+
+			
+			dispatch(deleteFileAc(file._id))
+			alert('file was deleted', res.data.message)
 		}catch(e){
 			console.log(e.response.data.message)
 		}

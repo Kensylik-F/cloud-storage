@@ -21,6 +21,26 @@ class FileService {
 			}
 		})
 	}
+	getPath(file){
+		return `${config.get('filePath')}\\${file.user}\\${file.path}`
+
+	}
+
+	deleteFile(file) {
+		const path = this.getPath(file);
+		
+		try {
+			if (file.type === "dir") {
+				fs.rmSync(path, { recursive: true, force: true });
+			} else {
+				if (fs.existsSync(path)) {
+					fs.unlinkSync(path);
+				}
+			}
+		} catch (error) {
+			console.error("Ошибка при удалении файла:", error);
+		}
+	}
 
 }
 
